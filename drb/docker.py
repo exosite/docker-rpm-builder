@@ -39,7 +39,7 @@ class Docker(object):
         # be then passed to a shell,
         # and MUST be already quoted when set.
         self._docker_exec = pipes.quote(docker_exec)
-        self._options = []
+        self._options = ["-i"]
         self._image = None
         self._cmd_and_args = None
         self._logger = getLogger(self.__class__.__name__)
@@ -79,7 +79,7 @@ class Docker(object):
         precondition(self._image is not None, "image must be set")
         precondition(self._cmd_and_args is not None, "cmd_and_args must be set")
 
-        fullcmd = "{docker_exec} run {options} {image} {cmd_and_args}".format(
+        fullcmd = "{docker_exec} run -u root {options} {image} {cmd_and_args}".format(
             docker_exec=self._docker_exec,
             options=" ".join(_ordered_unique(self._options)),
             image=self._image,
